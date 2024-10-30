@@ -13,7 +13,7 @@ static struct proc_ops procfs_funcs = {
 	.proc_read = proc_entry_read,
 };
 
-int second_init(void)
+int procfs_entry_init(void)
 {
 	proc_create(PROC_ENTRY_FILE_NAME, 0666, NULL, &procfs_funcs);
 	pr_info("%s file is now available in /proc pseudo-fs!\n",                    \
@@ -21,7 +21,7 @@ int second_init(void)
 	return 0;
 }
 
-void second_exit(void)
+void procfs_entry_exit(void)
 {
 	remove_proc_entry(PROC_ENTRY_FILE_NAME, NULL);
 	pr_info("%s file is deleted from /proc pseudo-fs\n",
@@ -53,5 +53,6 @@ ssize_t proc_entry_read(struct file *f, char __user *user_buff, size_t count,
 }
 
 MODULE_LICENSE("BSD");
-module_init(second_init);
-module_exit(second_exit);
+MODULE_AUTHOR("n3cr0l0rd");
+module_init(procfs_entry_init);
+module_exit(procfs_entry_exit);
